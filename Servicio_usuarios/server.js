@@ -150,7 +150,9 @@ app.post('/user', function (req, res) {
       // Se encontró el usuario
       usuario = {
         id: req.body.id,
-        name: req.body.name
+        name: req.body.name,
+        piloto: null,
+        destino: null
       }
       // Guardarlo en el arreglo
       users.push(usuario)
@@ -222,7 +224,7 @@ app.post('/userviaje', function (req, res) {
   res.send(respuesta)
 })
 
-// Router para desasginar un viaje
+// Router para desasignar un viaje
 app.delete('/userviaje', function (req, res) {
   var id = req.query.id
   if (id != null) {
@@ -246,7 +248,7 @@ app.delete('/userviaje', function (req, res) {
   res.send(respuesta)
 })
 
-// Router para router no especificadas
+// Router para rutas no especificadas
 app.use(function (req, res, next) {
   respuesta = {
     error: true,
