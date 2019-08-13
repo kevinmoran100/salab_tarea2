@@ -282,3 +282,57 @@ Servicio que permite realizar acciones relacionadas con la administración de pi
       }
     });
   ```
+
+**Get position**
+----
+  Obtiene la posicion de un piloto
+
+* **URL**
+
+  /getPosicion/:id
+
+* **Method:**
+
+  `GET`
+  
+*  **URL Params**
+
+   **Required:**
+ 
+   `id=[string]`
+
+* **Data Params**
+
+  None
+
+* **Success Response:**
+
+  * **Code:** 200 <br />
+    **Content:** `{
+        error: false,
+        codigo: 200,
+        mensaje: 'Envio posicion',
+        respuesta: { latitud: r[0], longitud: r[1] }
+      }`
+ 
+* **Error Response:**
+
+  * **Code:** 501 NOT FOUND <br />
+    **Content:** `{
+        error: true,
+        codigo: 501,
+        mensaje: 'Error al obtener posicion'
+      }`
+
+* **Sample Call:**
+
+  ```javascript
+    $.ajax({
+      url: "/getPosicion?id=piloto1",
+      dataType: "json",
+      type : "GET",
+      success : function(r) {
+        console.log(r);
+      }
+    });
+  ```

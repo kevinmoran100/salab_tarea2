@@ -65,6 +65,22 @@ function desocuparPiloto (idpiloto) {
   return false
 }
 
+/**
+ * Funcion para rastrear piloto
+ *
+ * @param {*} idpiloto id del piloto a rastrear
+ * @returns null si no se encontro el piloto, si no dos numeros random simulando latitud y longitud
+ */
+function getPosicion (id) {
+  for (let i = 0; i < pilotos.length; i++) {
+    var element = pilotos[i]
+    if (element.id === id) {
+      return [Math.random(), Math.random()]
+    }
+  }
+  return null
+}
+
 // Router raiz de api
 app.get('/', function (req, res) {
   respuesta = {
@@ -237,6 +253,31 @@ app.delete('/pilotoviaje', function (req, res) {
         mensaje: 'Error al desasignar el viaje'
       }
       console.log('[PILOTOVIAJE] Error al terminar el viaje')
+    }
+  }
+  res.send(respuesta)
+})
+
+// Router para obtener posicion de piloto
+app.get('/getPosicion', function (req, res) {
+  var id = req.query.id
+  if (id != null) {
+    var r = getPosicion(id)
+    if (r != null) {
+      console.log('[RASTREOPILOTO] El piloto ' + id + ' Se encuentra en la ubicación latitud: ' + r[0] + ', longitud: ' + r[1])
+      respuesta = {
+        error: false,
+        codigo: 200,
+        mensaje: 'Envio posicion',
+        respuesta: { latitud: r[0], longitud: r[1] }
+      }
+    } else {
+      respuesta = {
+        error: true,
+        codigo: 501,
+        mensaje: 'Error al obtener posicion'
+      }
+      console.log('[POSICIONPILOTO] Error al obtener posicion')
     }
   }
   res.send(respuesta)
