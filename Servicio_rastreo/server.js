@@ -1,10 +1,19 @@
 var express = require('express')
 var http = require('http')
 var bodyParser = require('body-parser')
+var request = require('request')
 var app = express()
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+
+var rutaESB = 'http://localhost:8004/'
+
+// Step 1 - Set the headers
+var headers = {
+  'User-Agent': 'Super Agent/0.0.1',
+  'Content-Type': 'application/x-www-form-urlencoded'
+}
 
 let respuesta = {
   error: false,
@@ -28,26 +37,42 @@ app.get('/', function (req, res) {
 
 // Router para rastrear un piloto
 app.get('/rastrearpiloto', function (req, res) {
+  console.log('[RASTREO] Recepcion de solitud de rastreo')
   var id = req.query.id
   if (id != null) {
     // Enviar peticion de posición al ESB
-    // if (r != null) {
-    //   console.log('[RASTREOPILOTO] El piloto ' + id + 'Se encuentra en la ubicación latitud: ' + r[0] + ', longitud: ' + r[1])
-    //   respuesta = {
-    //     error: false,
-    //     codigo: 200,
-    //     mensaje: 'Rastreo completado'
-    //   }
-    // } else {
-    //   respuesta = {
-    //     error: true,
-    //     codigo: 501,
-    //     mensaje: 'Error al rastrear al piloto'
-    //   }
-    //   console.log('[RASTREOPILOTO] Error al rastrear al piloto')
-    // }
+    // Configure the request
+    var options = {
+      url: rutaESB + 'getPosicionPiloto?id=' + id,
+      method: 'GET',
+      jar: true,
+      headers: headers
+    }
+    // Do the request
+    request(options, function (error, response, body) {
+      if (!error && response.statusCode === 200) {
+        respuesta = JSON.parse(body)
+        console.log('[RASTREO] Solicitud respondida correctamente')
+        res.send(respuesta)
+      } else {
+        console.log('[ERROR] Error al enviar peticion]')
+        console.log(error)
+        respuesta = {
+          error: true,
+          codigo: 501,
+          mensaje: 'Error en el servidor'
+        }
+        res.send(respuesta)
+      }
+    })
+  } else {
+    respuesta = {
+      error: true,
+      codigo: 404,
+      mensaje: 'Falta id'
+    }
+    res.send(respuesta)
   }
-  res.send(respuesta)
 })
 
 // Router para rutas no especificadas

@@ -312,7 +312,7 @@ Servicio que permite realizar acciones relacionadas con la administración de pi
         error: false,
         codigo: 200,
         mensaje: 'Envio posicion',
-        respuesta: { latitud: r[0], longitud: r[1] }
+        respuesta: { latitud: -9.918047182370, longitud: -8.10247017 }
       }`
  
 * **Error Response:**

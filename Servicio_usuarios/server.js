@@ -61,12 +61,17 @@ function terminarViaje (idusuario) {
   for (let i = 0; i < users.length; i++) {
     var element = users[i]
     if (element.id === idusuario) {
-      element.piloto = null
-      element.destino = null
-      return true
+      if (element.piloto == null) {
+        return null
+      } else {
+        var viejopiloto = element.piloto
+        element.piloto = null
+        element.destino = null
+        return viejopiloto
+      }
     }
   }
-  return false
+  return null
 }
 
 // Router raiz de api
@@ -205,14 +210,14 @@ app.post('/userviaje', function (req, res) {
   if (id != null) {
     // Si viene el parametro id
     var r = asignarViaje(id, piloto, destino)
-    if (r) {
+    if (r) { // Si el viaje se asigno correctamente
       console.log('[USERVIAJE] Se asigno el viaje para el usuario ' + id + ' con el piloto ' + piloto + ' hacia el destino: ' + destino)
       respuesta = {
         error: false,
         codigo: 200,
         mensaje: 'Viaje asignado'
       }
-    } else {
+    } else { // Hubo error en la asignación
       respuesta = {
         error: true,
         codigo: 501,
@@ -227,16 +232,18 @@ app.post('/userviaje', function (req, res) {
 // Router para desasignar un viaje
 app.delete('/userviaje', function (req, res) {
   var id = req.query.id
-  if (id != null) {
+  if (id != null) { // El parámetro id esta presente
     var r = terminarViaje(id)
-    if (r) {
+    console.log(r)
+    if (r != null) { // Se logro la desasignacion del viaje
       console.log('[USERVIAJE] Se termino el viaje para el usuario ' + id)
       respuesta = {
         error: false,
         codigo: 200,
-        mensaje: 'Viaje terminado'
+        mensaje: 'Viaje terminado',
+        respuesta: { usuario: id, piloto: r }
       }
-    } else {
+    } else { // Hubo error en la desasignacion
       respuesta = {
         error: true,
         codigo: 501,

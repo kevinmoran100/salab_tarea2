@@ -42,6 +42,7 @@ function asignarPiloto (idusuario, destino) {
   for (let i = 0; i < pilotos.length; i++) {
     var element = pilotos[i]
     if (!element.ocupado) {
+      element.ocupado = true
       return element.id
     }
   }
@@ -208,7 +209,7 @@ app.delete('/piloto', function (req, res) {
   res.send(respuesta)
 })
 
-// Router para asginar un piloto
+// Router para asignar un piloto
 app.post('/pilotoviaje', function (req, res) {
   var id = req.query.id
   var destino = req.query.destino
@@ -220,7 +221,8 @@ app.post('/pilotoviaje', function (req, res) {
       respuesta = {
         error: false,
         codigo: 200,
-        mensaje: 'Viaje asignado'
+        mensaje: 'Viaje asignado',
+        respuesta: { piloto: r }
       }
     } else {
       respuesta = {

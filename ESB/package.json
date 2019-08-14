@@ -1,7 +1,7 @@
 {
-  "name": "servicio_pilotos",
+  "name": "esb",
   "version": "1.0.0",
-  "description": "Servicio de pilotos ",
+  "description": "ESB",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
