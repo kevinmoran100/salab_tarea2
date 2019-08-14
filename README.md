@@ -1,142 +1,90 @@
-<p align="center">
-  <a href="" rel="noopener">
- <img width=200px height=200px src="https://i.imgur.com/FxL5qM0.jpg" alt="Bot logo"></a>
-</p>
-
-<h3 align="center">Project Title</h3>
-
-<div align="center">
-
-[![Status](https://img.shields.io/badge/status-active-success.svg)]()
-[![Platform](https://img.shields.io/badge/platform-reddit-orange.svg)](https://www.reddit.com/user/Wordbook_Bot)
-[![GitHub Issues](https://img.shields.io/github/issues/kylelobo/The-Documentation-Compendium.svg)](https://github.com/kylelobo/The-Documentation-Compendium/issues)
-[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/kylelobo/The-Documentation-Compendium.svg)](https://github.com/kylelobo/The-Documentation-Compendium/pulls)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](/LICENSE)
-
-</div>
-
+<h1 align="center">SOA: Service Choreography / Orchestration | ESB introduction</h1>
 ---
 
-<p align="center"> 🤖 Few lines describing what your bot does.
+<p align="center"> 🤖 Tarea no. 2 Laboratorio Software Avanzado
     <br> 
 </p>
 
-## 📝 Table of Contents
+## 📝 Tabla de contenido
 
-- [About](#about)
-- [Demo / Working](#demo)
-- [How it works](#working)
-- [Usage](#usage)
-- [Getting Started](#getting_started)
-- [Deploying your own bot](#deployment)
-- [Built Using](#built_using)
-- [TODO](../TODO.md)
-- [Contributing](../CONTRIBUTING.md)
-- [Authors](#authors)
-- [Acknowledgments](#acknowledgement)
+- [Acerca de](#about)
+- [Demo / Funcionamiento](#demo)
+- [Como funciona](#working)
+- [Uso](#usage)
+- [Empezando](#getting_started)
+- [Autor](#authors)
 
-## 🧐 About <a name = "about"></a>
+## 🧐 Acerca de <a name = "about"></a>
 
-Write about 1-2 paragraphs describing the purpose of your bot.
+La aplicación simula el funcionamiento de Uber, donde pueden crearse usuarios y pilotos, así como tambien puede obtenerse la posicion de un piloto y solicitar un viaje, todo orquestado a traves de 3 servicios: 
+* Servicio de usuarios
+* Servicio de pilotos
+* Servicio de rastreo
 
-## 🎥 Demo / Working <a name = "demo"></a>
+Estos servicios y el usuario final se comunican a travez de un ESB.
 
-![Working](https://media.giphy.com/media/20NLMBm0BkUOwNljwv/giphy.gif)
+ Tanto los servicios como el ESB fueron realizados utilizando nodejs y el lenguaje javascript, implementando para cada uno una API REST independiente.
 
-## 💭 How it works <a name = "working"></a>
+ **Estandarización**
+ ---
+ Para el codigo desarrollado se utilizó el JavaScript Standar Style
 
-The bot first extracts the word from the comment and then fetches word definitions, part of speech, example and source from the Oxford Dictionary API.
+ Las reglas para este estandar pueden encontrarse en el siguiente enlace: https://standardjs.com/
 
-If the word does not exist in the Oxford Dictionary, the Oxford API then returns a 404 response upon which the bot then tries to fetch results form the Urban Dictionary API.
+## 🎥 Demo / Funcionamiento <a name = "demo"></a>
 
-The bot uses the Pushshift API to fetch comments, PRAW module to reply to comments and Heroku as a server.
+[<img src="https://img.youtube.com/vi/rGj4CRvRlwQ/maxresdefault.jpg" width="100%">](https://youtu.be/rGj4CRvRlwQ)
 
-The entire bot is written in Python 3.6
+https://www.youtube.com/watch?v=rGj4CRvRlwQ&feature=youtu.be
 
-## 🎈 Usage <a name = "usage"></a>
 
-To use the bot, type:
+## 💭 Como funciona <a name = "working"></a>
+Para la comunicación entre servicios debe hacerse exclusivamente a traves del ESB.
 
-```
-!dict word
-```
+La arquitectura de interacción de los servicios se muestra en la siguiente gráfica: 
 
-The first part, i.e. "!dict" **is not** case sensitive.
+<img src="Diagrama_interaccion.jpg" width="100%">
 
-The bot will then give you the Oxford Dictionary (or Urban Dictionary; if the word does not exist in the Oxford Dictionary) definition of the word as a comment reply.
+Para hacer una solicitud de rastreo se hace al ESB el cual hace la solicitud al servicio de rastreo, este servicio utiliza al mismo ESB para comunicarse con el servicio de piloto para obtener la posicion y luego se devuelve al cliente la informacion. 
+Esta interacción se puede apreciar de mejor manera en el siguiente diagrama: 
 
-### Example:
+<img src="Diagrama_rastreo.jpg" width="100%">
 
-> !dict what is love
+Para hacer la solicitud del inicio de un viaje el cliente se comunica con el esb, luego este envia la peticion de asignacion de piloto al servicio de pilotos. Al recibir la respuesta del servicio de pilotos el esb tambien envia la información al servicio de usuarios para que registre la información. Luego la confirmación es devuelta al cliente.
 
-**Definition:**
+Para la finalización del viaje el proceso es el mismo que para la solicitud solo cambia la accion que se hace en cada servicio que seria la de liberar al piloto.
 
-Baby, dont hurt me~
-Dont hurt me~ no more.
+## 🎈 Uso <a name = "usage"></a>
 
-**Example:**
+Para utilizar el servicio puede ir a la carpeta de cada uno, donde estan definidas todas las funciones de cada API REST.
 
-Dude1: Bruh, what is love?
-Dude2: Baby, dont hurt me, dont hurt me- no more!
-Dude1: dafuq?
-
-**Source:** https://www.urbandictionary.com/define.php?term=what%20is%20love
 
 ---
 
-<sup>Beep boop. I am a bot. If there are any issues, contact my [Master](https://www.reddit.com/message/compose/?to=PositivePlayer1&subject=/u/Wordbook_Bot)</sup>
+## 🏁 Empezando <a name = "getting_started"></a>
 
-<sup>Want to make a similar reddit bot? Check out: [GitHub](https://github.com/kylelobo/Reddit-Bot)</sup>
+Estas instrucciones le proporcionarán una copia del proyecto en funcionamiento en su máquina local para fines de desarrollo y prueba.
 
-## 🏁 Getting Started <a name = "getting_started"></a>
+### Prerequisitos
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See [deployment](#deployment) for notes on how to deploy the project on a live system.
-
-### Prerequisites
-
-What things you need to install the software and how to install them.
+Necesita tener nodejs instalado en sus sistema operativo, si utiliza una distribución linux basada en debian como Ubuntu puede obtenerlo con el comando: 
 
 ```
-Give examples
+sudo apt-get install nodejs
 ```
-
-### Installing
-
-A step by step series of examples that tell you how to get a development env running.
-
-Say what the step will be
+Tambien es necesario contar con el administrador de paquetes para node npm, se puede instalar con el comando:_ 
 
 ```
-Give the example
+sudo apt-get install npm
 ```
 
-And repeat
+### Instalacion
+
+ Luego de descargar el repositorio es necesario descargar las dependencias de cada servicios, para ello hay que ir a cada una de las carpetas y ejecutar el comando: 
 
 ```
-until finished
+npm install
 ```
+## ✍️ Autor <a name = "authors"></a>
 
-End with an example of getting some data out of the system or using it for a little demo.
-
-## 🚀 Deploying your own bot <a name = "deployment"></a>
-
-To see an example project on how to deploy your bot, please see my own configuration:
-
-- **Heroku**: https://github.com/kylelobo/Reddit-Bot#deploying_the_bot
-
-## ⛏️ Built Using <a name = "built_using"></a>
-
-- [PRAW](https://praw.readthedocs.io/en/latest/) - Python Reddit API Wrapper
-- [Heroku](https://www.heroku.com/) - SaaS hosting platform
-
-## ✍️ Authors <a name = "authors"></a>
-
-- [@kylelobo](https://github.com/kylelobo) - Idea & Initial work
-
-See also the list of [contributors](https://github.com/kylelobo/The-Documentation-Compendium/contributors) who participated in this project.
-
-## 🎉 Acknowledgements <a name = "acknowledgement"></a>
-
-- Hat tip to anyone whose code was used
-- Inspiration
-- References
+- [@kevinmoran100](https://github.com/kevinmoran100) 
