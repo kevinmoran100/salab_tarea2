@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<process
+    name="solicitud_de_viaje"
+    targetNamespace="http://enterprise.netbeans.org/bpel/Solicitud_de_viaje/solicitud_de_viaje"
+    xmlns:tns="http://enterprise.netbeans.org/bpel/Solicitud_de_viaje/solicitud_de_viaje"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+    xmlns:sxt="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/Trace" 
+    xmlns:sxed="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/Editor2"
+    xmlns:sxat="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/Attachment"
+    xmlns:sxeh="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/ErrorHandling" xmlns:sxnmp="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/NMProperty" xmlns:ns0="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:sxdh="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/DataHandling" xmlns:sxtx="http://www.sun.com/wsbpel/2.0/process/executable/SUNExtension/Transaction" sxtx:atomic="yes">
+    <import namespace="http://j2ee.netbeans.org/wsdl/Solicitud_de_viaje/src/WSDLSolicitudDeViaje" location="WSDLSolicitudDeViaje.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://j2ee.netbeans.org/wsdl/Solicitud_de_viaje/src/REST_PILOTO" location="REST_PILOTO.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <import namespace="http://j2ee.netbeans.org/wsdl/Solicitud_de_viaje/src/REST_USUARIO" location="REST_USUARIO.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
+    <partnerLinks>
+        <partnerLink name="PartnerLink2" xmlns:tns="http://j2ee.netbeans.org/wsdl/Solicitud_de_viaje/src/REST_PILOTO" partnerLinkType="tns:RestOutboundWSDL" partnerRole="RestOutboundPortTypeRole"/>
+        <partnerLink name="PartnerLink3" xmlns:tns="http://j2ee.netbeans.org/wsdl/Solicitud_de_viaje/src/REST_USUARIO" partnerLinkType="tns:RestOutboundWSDL" partnerRole="RestOutboundPortTypeRole"/>
+        <partnerLink name="PartnerLink1" xmlns:tns="http://j2ee.netbeans.org/wsdl/Solicitud_de_viaje/src/WSDLSolicitudDeViaje" partnerLinkType="tns:WSDLSolicitudDeViaje" myRole="WSDLSolicitudDeViajePortTypeRole"/>
+    </partnerLinks>
+    <variables>
+        <variable name="AsignarviajeOut" xmlns:tns="http://j2ee.netbeans.org/wsdl/Solicitud_de_viaje/src/REST_USUARIO" messageType="tns:asignarviajeResponse"/>
+        <variable name="AsignarviajeIn" xmlns:tns="http://j2ee.netbeans.org/wsdl/Solicitud_de_viaje/src/REST_USUARIO" messageType="tns:asignarviajeRequest"/>
+        <variable name="PilotoviajeOut" xmlns:tns="http://j2ee.netbeans.org/wsdl/Solicitud_de_viaje/src/REST_PILOTO" messageType="tns:pilotoviajeResponse">
+            <sxed:editor></sxed:editor>
+        </variable>
+        <variable name="PilotoviajeIn" xmlns:tns="http://j2ee.netbeans.org/wsdl/Solicitud_de_viaje/src/REST_PILOTO" messageType="tns:pilotoviajeRequest"/>
+        <variable name="WSDLSolicitudDeViajeOperationOut" xmlns:tns="http://j2ee.netbeans.org/wsdl/Solicitud_de_viaje/src/WSDLSolicitudDeViaje" messageType="tns:WSDLSolicitudDeViajeOperationResponse"/>
+        <variable name="WSDLSolicitudDeViajeOperationIn" xmlns:tns="http://j2ee.netbeans.org/wsdl/Solicitud_de_viaje/src/WSDLSolicitudDeViaje" messageType="tns:WSDLSolicitudDeViajeOperationRequest"/>
+    </variables>
+    <sequence>
+        <receive name="Receive1" createInstance="yes" partnerLink="PartnerLink1" operation="WSDLSolicitudDeViajeOperation" xmlns:tns="http://j2ee.netbeans.org/wsdl/Solicitud_de_viaje/src/WSDLSolicitudDeViaje" portType="tns:WSDLSolicitudDeViajePortType" variable="WSDLSolicitudDeViajeOperationIn"/>
+        <assign name="Assign2">
+            <copy>
+                <from>concat(concat(concat('http://localhost:8002/pilotoviaje?id=', $WSDLSolicitudDeViajeOperationIn.id), '&amp;destino='), $WSDLSolicitudDeViajeOperationIn.part2)</from>
+                <to variable="PilotoviajeIn" sxnmp:nmProperty="org.glassfish.openesb.rest.url"/>
+            </copy>
+            <copy>
+                <from>''</from>
+                <to variable="PilotoviajeIn" part="part1"/>
+            </copy>
+        </assign>
+        <invoke name="Invoke1" partnerLink="PartnerLink2" operation="pilotoviaje" xmlns:tns="http://j2ee.netbeans.org/wsdl/Solicitud_de_viaje/src/REST_PILOTO" portType="tns:RestOutboundPortType" inputVariable="PilotoviajeIn" outputVariable="PilotoviajeOut"></invoke>
+        <assign name="Assign1">
+            <copy>
+                <from>''</from>
+                <to variable="AsignarviajeIn" part="part1"/>
+            </copy>
+            <copy>
+                <from>concat('http://localhost:8001/userviaje?id=', $WSDLSolicitudDeViajeOperationIn.id, '&amp;piloto=', string($PilotoviajeOut.part1), '&amp;destino=', $WSDLSolicitudDeViajeOperationIn.part2)</from>
+                <to variable="AsignarviajeIn" sxnmp:nmProperty="org.glassfish.openesb.rest.url"/>
+            </copy>
+        </assign>
+        <invoke name="Invoke2" partnerLink="PartnerLink3" operation="asignarviaje" xmlns:tns="http://j2ee.netbeans.org/wsdl/Solicitud_de_viaje/src/REST_USUARIO" portType="tns:RestOutboundPortType" inputVariable="AsignarviajeIn" outputVariable="AsignarviajeOut"/>
+        <assign name="Assign4">
+            <copy>
+                <from variable="AsignarviajeOut" part="part1"/>
+                <to variable="WSDLSolicitudDeViajeOperationOut" part="part1"/>
+            </copy>
+        </assign>
+        <reply name="Reply1" partnerLink="PartnerLink1" operation="WSDLSolicitudDeViajeOperation" xmlns:tns="http://j2ee.netbeans.org/wsdl/Solicitud_de_viaje/src/WSDLSolicitudDeViaje" portType="tns:WSDLSolicitudDeViajePortType" variable="WSDLSolicitudDeViajeOperationOut"/>
+    </sequence>
+</process>

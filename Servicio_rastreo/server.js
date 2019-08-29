@@ -15,19 +15,11 @@ var headers = {
   'Content-Type': 'application/x-www-form-urlencoded'
 }
 
-let respuesta = {
-  error: false,
-  codigo: 200,
-  mensaje: ''
-}
+let respuesta = ''
 
 // Router raiz de api
 app.get('/', function (req, res) {
-  respuesta = {
-    error: true,
-    codigo: 200,
-    mensaje: 'Bienvenido al servicio de pilotos'
-  }
+  respuesta = 'Bienvenido al servicio de pilotos'
   res.send(respuesta)
 })
 
@@ -57,31 +49,19 @@ app.get('/rastrearpiloto', function (req, res) {
       } else {
         console.log('[ERROR] Error al enviar peticion]')
         console.log(error)
-        respuesta = {
-          error: true,
-          codigo: 501,
-          mensaje: 'Error en el servidor'
-        }
+        respuesta = 'Error en el servidor'
         res.send(respuesta)
       }
     })
   } else {
-    respuesta = {
-      error: true,
-      codigo: 404,
-      mensaje: 'Falta id'
-    }
+    respuesta = 'Falta id'
     res.send(respuesta)
   }
 })
 
 // Router para rutas no especificadas
 app.use(function (req, res, next) {
-  respuesta = {
-    error: true,
-    codigo: 404,
-    mensaje: 'URL no encontrada'
-  }
+  respuesta = 'URL no encontrada'
   res.status(404).send(respuesta)
 })
 

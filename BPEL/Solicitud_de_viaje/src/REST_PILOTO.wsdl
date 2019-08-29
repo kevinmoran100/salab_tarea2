@@ -1,0 +1,210 @@
+<definitions name="REST_PILOTO"
+    targetNamespace="http://j2ee.netbeans.org/wsdl/Solicitud_de_viaje/src/REST_PILOTO"
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:rest="http://schemas.sun.com/jbi/wsdl-extensions/rest/"
+    xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:tns="http://j2ee.netbeans.org/wsdl/Solicitud_de_viaje/src/REST_PILOTO">
+    <types>
+        <xsd:schema targetNamespace="http://j2ee.netbeans.org/wsdl/Solicitud_de_viaje/src/REST_PILOTO"/>
+    </types>
+    <message name="pilotoviajeRequest">
+        <part name="part1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" type="xsd:string"/>
+    </message>
+    <message name="pilotoviajeResponse">
+        <part name="part1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" type="xsd:string"/>
+    </message>
+    <message name="getPosicionRequest">
+        <part name="part1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" type="xsd:anyType"/>
+    </message>
+    <message name="getPosicionResponse">
+        <part name="part1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" type="xsd:anyType"/>
+    </message>
+    <message name="delete_pilotoviajeRequest">
+        <part name="part1" type="xsd:anyType"/>
+    </message>
+    <message name="delete_pilotoviajeResponse">
+        <part name="part1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" type="xsd:anyType"/>
+    </message>
+    <portType name="RestOutboundPortType">
+        <operation name="pilotoviaje">
+            <input name="pilotoviajeInput" xmlns:tns="http://j2ee.netbeans.org/wsdl/Solicitud_de_viaje/src/REST_PILOTO" message="tns:pilotoviajeRequest"/>
+            <output name="pilotoviajeOutput" xmlns:tns="http://j2ee.netbeans.org/wsdl/Solicitud_de_viaje/src/REST_PILOTO" message="tns:pilotoviajeResponse"/>
+        </operation>
+        <operation name="getPosicion">
+            <input name="getPosicionInput" xmlns:tns="http://j2ee.netbeans.org/wsdl/Solicitud_de_viaje/src/REST_PILOTO" message="tns:getPosicionRequest"/>
+            <output name="getPosicionOutput" xmlns:tns="http://j2ee.netbeans.org/wsdl/Solicitud_de_viaje/src/REST_PILOTO" message="tns:getPosicionResponse"/>
+        </operation>
+        <operation name="delete_pilotoviaje">
+            <input name="delete_pilotoviajeInput" xmlns:tns="http://j2ee.netbeans.org/wsdl/Solicitud_de_viaje/src/REST_PILOTO" message="tns:delete_pilotoviajeRequest"/>
+            <output name="delete_pilotoviajeOutput" xmlns:tns="http://j2ee.netbeans.org/wsdl/Solicitud_de_viaje/src/REST_PILOTO" message="tns:delete_pilotoviajeResponse"/>
+        </operation>
+    </portType>
+    <binding name="RestOutboundBinding" type="tns:RestOutboundPortType">
+        <rest:binding/>
+        <operation name="pilotoviaje">
+            <rest:operation>
+&lt;![CDATA[
+# required, URL of external resource
+# for example: http://somehost.com/users/{id}/address
+url=http://localhost:8002/pilotoviaje
+
+# optional, HTTP verb to access the resource, defaults to GET
+method=POST
+
+# optional, acceptable media types of response can be added as array elements in JSON format
+accept-types=[ "application/json" ]
+
+# optional, preferred natural languages for the response, added as array elements in JSON format
+accept-languages=[ ]
+
+# optional, content type of outgoing payload, defaults to any type
+content-type=application/json
+
+# optional, additional custom HTTP headers can be added as pairs in JSON format in this property
+# for example:  { "authorization" : "257984234", "last-modifed" : "2009-04-23:12:00:00" }
+headers={ }
+
+# optional, style for the parameters, valid values are QUERY, MATRIX, defaults to QUERY
+param-style=Query
+
+# optional, additional custom HTTP parameters can be added as pairs in JSON format in this property
+# for example:  { "userid" : "abc" , "userpassword" : "123" }
+params={ }
+
+# optional, adding HTTP Basic Authentication header to the HTTP request,
+# if the two properties below are specified
+basic-auth-username=
+basic-auth-password=
+
+# optional, if the JSON document expected for a request has no root, remove it with the option request-root-removed
+request-root-removed=false
+
+#optional,if the response of a REST request has no root, you can add one with this option response-root-required. 
+response-root-required=false
+
+#The root name element is defined by response-root-name.
+#response-root-name=myRoot
+
+
+]]&gt;</rest:operation>
+            <input name="pilotoviajeInput"/>
+            <output name="pilotoviajeOutput"/>
+        </operation>
+        <operation name="getPosicion">
+            <rest:operation>
+&lt;![CDATA[
+# required, URL of external resource
+# for example: http://somehost.com/users/{id}/address
+url=http://localhost:8002/getPosicion
+
+# optional, HTTP verb to access the resource, defaults to GET
+method=GET
+
+# optional, acceptable media types of response can be added as array elements in JSON format
+accept-types=[ "application/json" ]
+
+# optional, preferred natural languages for the response, added as array elements in JSON format
+accept-languages=[ ]
+
+# optional, content type of outgoing payload, defaults to any type
+content-type=application/json
+
+# optional, additional custom HTTP headers can be added as pairs in JSON format in this property
+# for example:  { "authorization" : "257984234", "last-modifed" : "2009-04-23:12:00:00" }
+headers={ }
+
+# optional, style for the parameters, valid values are QUERY, MATRIX, defaults to QUERY
+param-style=Query
+
+# optional, additional custom HTTP parameters can be added as pairs in JSON format in this property
+# for example:  { "userid" : "abc" , "userpassword" : "123" }
+params={ }
+
+# optional, adding HTTP Basic Authentication header to the HTTP request,
+# if the two properties below are specified
+basic-auth-username=
+basic-auth-password=
+
+# optional, if the JSON document expected for a request has no root, remove it with the option request-root-removed
+request-root-removed=false
+
+#optional,if the response of a REST request has no root, you can add one with this option response-root-required. 
+response-root-required=false
+
+#The root name element is defined by response-root-name.
+#response-root-name=myRoot
+
+
+]]&gt;</rest:operation>
+            <input name="getPosicionInput"/>
+            <output name="getPosicionOutput"/>
+        </operation>
+        <operation name="delete_pilotoviaje">
+            <rest:operation>
+&lt;![CDATA[
+# required, URL of external resource
+# for example: http://somehost.com/users/{id}/address
+url=http://localhost:8002/pilotoviaje
+
+# optional, HTTP verb to access the resource, defaults to GET
+method=DELETE
+
+# optional, acceptable media types of response can be added as array elements in JSON format
+accept-types=[ "application/json" ]
+
+# optional, preferred natural languages for the response, added as array elements in JSON format
+accept-languages=[ ]
+
+# optional, content type of outgoing payload, defaults to any type
+content-type=application/json
+
+# optional, additional custom HTTP headers can be added as pairs in JSON format in this property
+# for example:  { "authorization" : "257984234", "last-modifed" : "2009-04-23:12:00:00" }
+headers={ }
+
+# optional, style for the parameters, valid values are QUERY, MATRIX, defaults to QUERY
+param-style=Query
+
+# optional, additional custom HTTP parameters can be added as pairs in JSON format in this property
+# for example:  { "userid" : "abc" , "userpassword" : "123" }
+params={ }
+
+# optional, adding HTTP Basic Authentication header to the HTTP request,
+# if the two properties below are specified
+basic-auth-username=
+basic-auth-password=
+
+# optional, if the JSON document expected for a request has no root, remove it with the option request-root-removed
+request-root-removed=false
+
+#optional,if the response of a REST request has no root, you can add one with this option response-root-required. 
+response-root-required=false
+
+#The root name element is defined by response-root-name.
+#response-root-name=myRoot
+
+
+]]&gt;</rest:operation>
+            <input name="delete_pilotoviajeInput"/>
+            <output name="delete_pilotoviajeOutput"/>
+        </operation>
+    </binding>
+    <service name="RestOutboundService">
+        <port name="RestOutboundWSDL_OutboundPort" binding="tns:RestOutboundBinding">
+            <rest:address/>
+        </port>
+    </service>
+    <plnk:partnerLinkType name="RestOutboundWSDL">
+        <!-- A partner link type is automatically generated when a new port type
+        is added. Partner link types are used by BPEL processes.
+
+        In a BPEL process, a partner link represents the interaction between
+        the BPEL process and a partner service. Each partner link is associated
+        with a partner link type.
+
+        A partner link type characterizes the conversational relationship
+        between two services. The partner link type can have one or two roles.-->
+        <plnk:role name="RestOutboundPortTypeRole" portType="tns:RestOutboundPortType"/>
+    </plnk:partnerLinkType>
+</definitions>

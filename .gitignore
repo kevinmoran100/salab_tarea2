@@ -86,3 +86,18 @@ typings/
 
 # DynamoDB Local files
 .dynamodb/
+/BPEL/BpelModuleUsuarios/nbproject/private/
+/BPEL/GetUsers/nbproject/private/
+/BPEL/Prueba1/nbproject/private/
+/BPEL/GetUsers/build/
+/BPEL/Prueba1/src/jbiServiceUnits/
+/BPEL/Prueba1/build/
+/BPEL/Prueba1/dist/
+/BPEL/Prueba1/test/results/
+/BPEL/Solicitud_de_viaje/nbproject/private/
+/BPEL/CompositeAppTarea4/nbproject/private/
+/BPEL/Solicitud_de_viaje/build/
+/BPEL/CompositeAppTarea4/src/jbiServiceUnits/
+/BPEL/CompositeAppTarea4/build/
+/BPEL/CompositeAppTarea4/dist/
+/BPEL/CompositeAppTarea4/test/results/

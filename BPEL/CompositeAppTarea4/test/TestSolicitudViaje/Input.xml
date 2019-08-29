@@ -1,0 +1,8 @@
+<soapenv:Envelope xsi:schemaLocation="http://schemas.xmlsoap.org/soap/envelope/ http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:wsd="http://j2ee.netbeans.org/wsdl/Solicitud_de_viaje/src/WSDLSolicitudDeViaje">
+  <soapenv:Body>
+    <wsd:WSDLSolicitudDeViajeOperation>
+      <id>user2</id>
+      <part2>Zoologico</part2>
+    </wsd:WSDLSolicitudDeViajeOperation>
+  </soapenv:Body>
+</soapenv:Envelope>

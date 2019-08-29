@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<casa xmlns="http://java.sun.com/xml/ns/casa" xmlns:ns1="http://j2ee.netbeans.org/wsdl/Solicitud_de_viaje/src/WSDLSolicitudDeViaje" xmlns:ns2="http://j2ee.netbeans.org/wsdl/Solicitud_de_viaje/src/REST_PILOTO" xmlns:ns3="http://j2ee.netbeans.org/wsdl/Solicitud_de_viaje/src/REST_USUARIO" xmlns:ns4="http://enterprise.netbeans.org/bpel/Solicitud_de_viaje/solicitud_de_viaje" xmlns:xlink="http://www.w3.org/2000/xlink">
+    <endpoints>
+        <endpoint endpoint-name="WSDLSolicitudDeViajePort" interface-name="ns1:WSDLSolicitudDeViajePortType" name="endpoint1" service-name="ns1:WSDLSolicitudDeViajeService"/>
+        <endpoint endpoint-name="RestOutboundWSDL_OutboundPort" interface-name="ns2:RestOutboundPortType" name="endpoint2" service-name="ns2:RestOutboundService"/>
+        <endpoint endpoint-name="RestOutboundWSDL_OutboundPort" interface-name="ns3:RestOutboundPortType" name="endpoint3" service-name="ns3:RestOutboundService"/>
+        <endpoint display-name="PartnerLink1" endpoint-name="WSDLSolicitudDeViajePortTypeRole_myRole" file-path="solicitud_de_viaje.bpel" interface-name="ns1:WSDLSolicitudDeViajePortType" name="endpoint4" process-name="solicitud_de_viaje" service-name="ns4:PartnerLink1"/>
+        <endpoint display-name="PartnerLink2" endpoint-name="RestOutboundPortTypeRole_partnerRole" file-path="solicitud_de_viaje.bpel" interface-name="ns2:RestOutboundPortType" name="endpoint5" process-name="solicitud_de_viaje" service-name="ns4:PartnerLink2"/>
+        <endpoint display-name="PartnerLink3" endpoint-name="RestOutboundPortTypeRole_partnerRole" file-path="solicitud_de_viaje.bpel" interface-name="ns3:RestOutboundPortType" name="endpoint6" process-name="solicitud_de_viaje" service-name="ns4:PartnerLink3"/>
+    </endpoints>
+    <service-units>
+        <service-engine-service-unit artifacts-zip="Solicitud_de_viaje.jar" component-name="sun-bpel-engine" defined="true" description="Represents this Service Unit" internal="true" name="CompositeAppTarea4-Solicitud_de_viaje" unit-name="Solicitud_de_viaje" unknown="false" x="127" y="97">
+            <provides endpoint="endpoint4"/>
+            <consumes endpoint="endpoint5"/>
+            <consumes endpoint="endpoint6"/>
+        </service-engine-service-unit>
+        <binding-component-service-unit artifacts-zip="sun-http-binding.jar" component-name="sun-http-binding" description="Represents this Service Unit" name="CompositeAppTarea4-sun-http-binding" unit-name="sun-http-binding">
+            <ports>
+                <port x="67" y="193">
+                    <link xlink:href="../jbiServiceUnits/Solicitud_de_viaje/WSDLSolicitudDeViaje.wsdl#xpointer(/definitions/service[@name='WSDLSolicitudDeViajeService']/port[@name='WSDLSolicitudDeViajePort'])" xlink:type="simple"/>
+                    <consumes endpoint="endpoint1"/>
+                    <provides endpoint="endpoint1"/>
+                </port>
+            </ports>
+        </binding-component-service-unit>
+        <binding-component-service-unit artifacts-zip="sun-rest-binding.jar" component-name="sun-rest-binding" description="Represents this Service Unit" name="CompositeAppTarea4-sun-rest-binding" unit-name="sun-rest-binding">
+            <ports>
+                <port x="67" y="37">
+                    <link xlink:href="../jbiServiceUnits/Solicitud_de_viaje/REST_USUARIO.wsdl#xpointer(/definitions/service[@name='RestOutboundService']/port[@name='RestOutboundWSDL_OutboundPort'])" xlink:type="simple"/>
+                    <consumes endpoint="endpoint3"/>
+                    <provides endpoint="endpoint3"/>
+                </port>
+                <port x="67" y="115">
+                    <link xlink:href="../jbiServiceUnits/Solicitud_de_viaje/REST_PILOTO.wsdl#xpointer(/definitions/service[@name='RestOutboundService']/port[@name='RestOutboundWSDL_OutboundPort'])" xlink:type="simple"/>
+                    <consumes endpoint="endpoint2"/>
+                    <provides endpoint="endpoint2"/>
+                </port>
+            </ports>
+        </binding-component-service-unit>
+    </service-units>
+    <connections>
+        <connection consumer="endpoint5" mode="" provider="endpoint2" route-type="" routing-rule="" state="unchanged"/>
+        <connection consumer="endpoint6" mode="" provider="endpoint3" route-type="" routing-rule="" state="unchanged"/>
+        <connection consumer="endpoint1" mode="" provider="endpoint4" route-type="" routing-rule="" state="unchanged"/>
+    </connections>
+    <porttypes>
+        <link xlink:href="../jbiasa/CompositeAppTarea4.wsdl#xpointer(/definitions/portType[@name='dummyCasaPortType'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/Solicitud_de_viaje/WSDLSolicitudDeViaje.wsdl#xpointer(/definitions/portType[@name='WSDLSolicitudDeViajePortType'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/Solicitud_de_viaje/REST_USUARIO.wsdl#xpointer(/definitions/portType[@name='RestOutboundPortType'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/Solicitud_de_viaje/REST_PILOTO.wsdl#xpointer(/definitions/portType[@name='RestOutboundPortType'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/CompositeAppTarea4.wsdl#xpointer(/definitions/portType[@name='dummyCasaPortType'])" xlink:type="simple"/>
+    </porttypes>
+    <bindings>
+        <link xlink:href="../jbiServiceUnits/Solicitud_de_viaje/WSDLSolicitudDeViaje.wsdl#xpointer(/definitions/binding[@name='WSDLSolicitudDeViajeBinding'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/Solicitud_de_viaje/REST_USUARIO.wsdl#xpointer(/definitions/binding[@name='RestOutboundBinding'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/Solicitud_de_viaje/REST_PILOTO.wsdl#xpointer(/definitions/binding[@name='RestOutboundBinding'])" xlink:type="simple"/>
+    </bindings>
+    <services>
+        <link xlink:href="../jbiServiceUnits/Solicitud_de_viaje/WSDLSolicitudDeViaje.wsdl#xpointer(/definitions/service[@name='WSDLSolicitudDeViajeService'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/Solicitud_de_viaje/REST_USUARIO.wsdl#xpointer(/definitions/service[@name='RestOutboundService'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/Solicitud_de_viaje/REST_PILOTO.wsdl#xpointer(/definitions/service[@name='RestOutboundService'])" xlink:type="simple"/>
+    </services>
+    <regions>
+        <region name="WSDL Endpoints" width="150"/>
+        <region name="JBI Modules" width="500"/>
+        <region name="External Modules" width="200"/>
+    </regions>
+</casa>

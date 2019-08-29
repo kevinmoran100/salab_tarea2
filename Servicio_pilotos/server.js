@@ -6,11 +6,7 @@ var app = express()
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
-let respuesta = {
-  error: false,
-  codigo: 200,
-  mensaje: ''
-}
+let respuesta = ''
 
 // Array para pilotos
 var pilotos = [{ id: 'piloto1', name: 'Nombre piloto1', ocupado: false }, { id: 'piloto2', name: 'Nombre piloto2', ocupado: false }, { id: 'piloto3', name: 'Nombre piloto3', ocupado: false }, { id: 'piloto4', name: 'Nombre piloto4', ocupado: false }]
@@ -84,11 +80,7 @@ function getPosicion (id) {
 
 // Router raiz de api
 app.get('/', function (req, res) {
-  respuesta = {
-    error: true,
-    codigo: 200,
-    mensaje: 'Bienvenido al servicio de pilotos'
-  }
+  respuesta = 'Bienvenido al servicio de pilotos'
   res.send(respuesta)
 })
 
@@ -98,41 +90,23 @@ app.get('/', function (req, res) {
 
 // Router para obtener pilotos, si viene el parametro id se devuelve un piloto, de lo contrario devuelve todos
 app.get('/piloto', function (req, res) {
-  respuesta = {
-    error: false,
-    codigo: 200,
-    mensaje: ''
-  }
+  respuesta = ''
   var id = req.query.id
   if (id != null) {
     // Si no viene ningun id
     var piloto = buscarPiloto(id)
     if (piloto == null) {
       // si no se encontro el piloto
-      respuesta = {
-        error: true,
-        codigo: 501,
-        mensaje: 'El piloto no ha sido creado'
-      }
+      respuesta = 'El piloto no ha sido creado'
       console.log('[GETPILOTOS] No se encontró el piloto')
     } else {
       // Si se encontro el piloto
-      respuesta = {
-        error: false,
-        codigo: 200,
-        mensaje: 'Respuesta del piloto',
-        respuesta: piloto
-      }
+      respuesta = piloto
       console.log('[GETPILOTOS] Se devolvio la informacion del piloto: ' + piloto.id)
     }
   } else {
     // Si venia un id como parametro
-    respuesta = {
-      error: false,
-      codigo: 200,
-      mensaje: 'Respuesta del piloto',
-      respuesta: pilotos
-    }
+    respuesta = pilotos
     console.log('[GETPILOTOS] Se devolvio la informacion de todos los pilotos')
   }
   res.send(respuesta)
@@ -142,22 +116,14 @@ app.get('/piloto', function (req, res) {
 app.post('/piloto', function (req, res) {
   if (!req.body.id || !req.body.name) {
     // Si no vienen los parametros completos
-    respuesta = {
-      error: true,
-      codigo: 502,
-      mensaje: 'El campo id y name son requeridos'
-    }
+    respuesta = 'El campo id y name son requeridos'
     console.log('[POSTPILOTO] Error: campos faltantes')
   } else {
     // Los parametros no están completos
     var piloto = buscarPiloto(req.body.id)
     if (piloto != null) {
       // No se encontro el piloto
-      respuesta = {
-        error: true,
-        codigo: 503,
-        mensaje: 'El piloto ya fue creado previamente'
-      }
+      respuesta = 'El piloto ya fue creado previamente'
       console.log('[POSTPILOTO] Error: el piloto ya fue creado previamente')
     } else {
       // Se encontró el piloto
@@ -168,12 +134,7 @@ app.post('/piloto', function (req, res) {
       }
       // Guardarlo en el arreglo
       pilotos.push(piloto)
-      respuesta = {
-        error: false,
-        codigo: 200,
-        mensaje: 'piloto creado',
-        respuesta: piloto
-      }
+      respuesta = piloto
       console.log('[POSTPILOTO] El piloto ' + piloto.id + ' fue creado')
     }
   }
@@ -188,19 +149,11 @@ app.delete('/piloto', function (req, res) {
     var piloto = buscarPiloto(id)
     if (piloto == null) {
       // No se encontró el piloto
-      respuesta = {
-        error: true,
-        codigo: 501,
-        mensaje: 'El piloto no ha sido creado'
-      }
+      respuesta = 'El piloto no ha sido creado'
       console.log('[DELETEPILOTO] Error: El piloto no ha sido creado')
     } else {
       // Se encontró el piloto
-      respuesta = {
-        error: false,
-        codigo: 200,
-        mensaje: 'piloto eliminado'
-      }
+      respuesta = 'piloto eliminado'
       console.log('[DELETEPILOTO] piloto ' + piloto.id + ' eliminado')
       // Eliminar el piloto del arreglo
       pilotos.splice(pilotos.indexOf(piloto), 1)
@@ -218,18 +171,9 @@ app.post('/pilotoviaje', function (req, res) {
     var r = asignarPiloto(id, destino)
     if (r != null) {
       console.log('[PILOTOVIAJE] Se asigno el viaje para el usuario ' + id + ' con el piloto ' + r + ' hacia el destino: ' + destino)
-      respuesta = {
-        error: false,
-        codigo: 200,
-        mensaje: 'Viaje asignado',
-        respuesta: { piloto: r }
-      }
+      respuesta = r
     } else {
-      respuesta = {
-        error: true,
-        codigo: 501,
-        mensaje: 'Error al asignar el viaje'
-      }
+      respuesta = 'Error al asignar el viaje'
       console.log('[PILOTOVIAJE] Error al asginar el viaje para el usuario ' + id + ' con el piloto ' + r + ' hacia el destino: ' + destino)
     }
   }
@@ -243,17 +187,9 @@ app.delete('/pilotoviaje', function (req, res) {
     var r = desocuparPiloto(id)
     if (r) {
       console.log('[PILOTOVIAJE] Se termino el viaje para el piloto ' + id)
-      respuesta = {
-        error: false,
-        codigo: 200,
-        mensaje: 'Viaje terminado'
-      }
+      respuesta = 'Viaje terminado'
     } else {
-      respuesta = {
-        error: true,
-        codigo: 501,
-        mensaje: 'Error al desasignar el viaje'
-      }
+      respuesta = 'Error al desasignar el viaje'
       console.log('[PILOTOVIAJE] Error al terminar el viaje')
     }
   }
@@ -267,18 +203,9 @@ app.get('/getPosicion', function (req, res) {
     var r = getPosicion(id)
     if (r != null) {
       console.log('[RASTREOPILOTO] El piloto ' + id + ' Se encuentra en la ubicación latitud: ' + r[0] + ', longitud: ' + r[1])
-      respuesta = {
-        error: false,
-        codigo: 200,
-        mensaje: 'Envio posicion',
-        respuesta: { latitud: r[0], longitud: r[1] }
-      }
+      respuesta = { latitud: r[0], longitud: r[1] }
     } else {
-      respuesta = {
-        error: true,
-        codigo: 501,
-        mensaje: 'Error al obtener posicion'
-      }
+      respuesta = 'Error al obtener posicion'
       console.log('[POSICIONPILOTO] Error al obtener posicion')
     }
   }
@@ -287,11 +214,7 @@ app.get('/getPosicion', function (req, res) {
 
 // Router para rutas no especificadas
 app.use(function (req, res, next) {
-  respuesta = {
-    error: true,
-    codigo: 404,
-    mensaje: 'URL no encontrada'
-  }
+  respuesta = 'URL no encontrada'
   res.status(404).send(respuesta)
 })
 

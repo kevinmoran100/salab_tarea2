@@ -101,30 +101,16 @@ app.get('/user', function (req, res) {
     var usuario = buscarUsuario(id)
     if (usuario == null) {
       // si no se encontro el usuario
-      respuesta = {
-        error: true,
-        codigo: 501,
-        mensaje: 'El usuario no ha sido creado'
-      }
+      respuesta = 'El usuario no ha sido creado'
       console.log('[GETUSERS] No se encontró el usuario')
     } else {
       // Si se encontro el usuario
-      respuesta = {
-        error: false,
-        codigo: 200,
-        mensaje: 'Respuesta del usuario',
-        respuesta: usuario
-      }
+      respuesta = usuario
       console.log('[GETUSERS] Se devolvio la informacion del usuario: ' + usuario.id)
     }
   } else {
     // Si venia un id como parametro
-    respuesta = {
-      error: false,
-      codigo: 200,
-      mensaje: 'Respuesta del usuario',
-      respuesta: users
-    }
+    respuesta = users
     console.log('[GETUSERS] Se devolvio la informacion de todos los usuarios')
   }
   res.send(respuesta)
@@ -134,22 +120,14 @@ app.get('/user', function (req, res) {
 app.post('/user', function (req, res) {
   if (!req.body.id || !req.body.name) {
     // Si no vienen los parametros completos
-    respuesta = {
-      error: true,
-      codigo: 502,
-      mensaje: 'El campo id y name son requeridos'
-    }
+    respuesta = 'El campo id y name son requeridos'
     console.log('[POSTUSER] Error: campos faltantes')
   } else {
     // Los parametros no están completos
     var usuario = buscarUsuario(req.body.id)
     if (usuario != null) {
       // No se encontro el usuario
-      respuesta = {
-        error: true,
-        codigo: 503,
-        mensaje: 'El usuario ya fue creado previamente'
-      }
+      respuesta = 'El usuario ya fue creado previamente'
       console.log('[POSTUSER] Error: el usuario ya fue creado previamente')
     } else {
       // Se encontró el usuario
@@ -161,12 +139,7 @@ app.post('/user', function (req, res) {
       }
       // Guardarlo en el arreglo
       users.push(usuario)
-      respuesta = {
-        error: false,
-        codigo: 200,
-        mensaje: 'Usuario creado',
-        respuesta: usuario
-      }
+      respuesta = usuario
       console.log('[POSTUSER] El usuario ' + usuario.id + ' fue creado')
     }
   }
@@ -181,19 +154,11 @@ app.delete('/user', function (req, res) {
     var usuario = buscarUsuario(id)
     if (usuario == null) {
       // No se encontró el usuario
-      respuesta = {
-        error: true,
-        codigo: 501,
-        mensaje: 'El usuario no ha sido creado'
-      }
+      respuesta = 'El usuario no ha sido creado'
       console.log('[DELETEUSER] Error: El usuario no ha sido creado')
     } else {
       // Se encontró el usuario
-      respuesta = {
-        error: false,
-        codigo: 200,
-        mensaje: 'Usuario eliminado'
-      }
+      respuesta = 'Usuario eliminado'
       console.log('[DELETEUSER] Usuario ' + usuario.id + ' eliminado')
       // Eliminar el usuario del arreglo
       users.splice(users.indexOf(usuario), 1)
@@ -207,22 +172,18 @@ app.post('/userviaje', function (req, res) {
   var id = req.query.id
   var piloto = req.query.piloto
   var destino = req.query.destino
+  console.log(piloto)
+  if (piloto != null) {
+    console.log('yes it is')
+  }
   if (id != null) {
     // Si viene el parametro id
     var r = asignarViaje(id, piloto, destino)
     if (r) { // Si el viaje se asigno correctamente
       console.log('[USERVIAJE] Se asigno el viaje para el usuario ' + id + ' con el piloto ' + piloto + ' hacia el destino: ' + destino)
-      respuesta = {
-        error: false,
-        codigo: 200,
-        mensaje: 'Viaje asignado'
-      }
+      respuesta = 'Viaje asignado'
     } else { // Hubo error en la asignación
-      respuesta = {
-        error: true,
-        codigo: 501,
-        mensaje: 'Error al asignar el viaje'
-      }
+      respuesta = 'Error al asignar el viaje'
       console.log('[USERVIAJE] Error al asginar el viaje para el usuario ' + id + ' con el piloto ' + piloto + ' hacia el destino: ' + destino)
     }
   }
